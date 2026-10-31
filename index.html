@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <script type="module" crossorigin src="/assets/polyfills-CbZ4-ZaM.js"></script>
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0B2B26" />
+    <meta name="description" content="Candidato Aprovado — Magistrado Aprovado (ENAM) e Analista Aprovado (Câmara dos Deputados): estude jogando." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <title>Candidato Aprovado</title>
+    <script>
+      // Se o jogo não abrir (navegador antigo, cache quebrado), mostra o erro na tela em vez de ficar em branco.
+      // Escrito em JavaScript antigo (ES5) de propósito, para rodar em qualquer Safari.
+      (function () {
+        var erros = [];
+        function registrar(m) { if (erros.length < 8) erros.push(m); }
+        window.addEventListener('error', function (e) {
+          var onde = e.filename ? ' @ ' + String(e.filename).split('/').pop() + ':' + e.lineno : '';
+          registrar((e.message || 'erro') + onde);
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          var r = e.reason;
+          registrar('Promise: ' + (r && (r.message || r.stack || r)));
+        });
+        function mostrar() {
+          var raiz = document.getElementById('root');
+          if (raiz && raiz.childElementCount > 0) return;
+          var d = document.createElement('div');
+          d.id = 'erro-boot';
+          d.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;padding:24px;background:#121212;color:#f3e9d2;font:16px/1.5 -apple-system,Inter,Arial,sans-serif;z-index:99999;overflow:auto;-webkit-overflow-scrolling:touch';
+          var texto = 'Navegador: ' + navigator.userAgent + '\n\nErros: ' + (erros.length ? erros.join('\n') : 'nenhum registrado') +
+            '\n\nService worker: ' + ('serviceWorker' in navigator ? 'sim' : 'não') + ' · Módulos ES: ' + ('noModule' in document.createElement('script') ? 'sim' : 'não');
+          d.innerHTML = '<h2 style="color:#d4af37;margin:0 0 8px;font-family:Georgia,serif">O jogo não conseguiu abrir</h2>' +
+            '<p style="margin:0 0 12px">Tire uma foto desta tela e mande para quem cuida do jogo. Enquanto isso, tente fechar esta aba e abrir de novo.</p>' +
+            '<button id="erro-limpar" style="margin:0 0 16px;padding:10px 16px;border-radius:999px;border:1px solid #d4af37;background:transparent;color:#d4af37;font:inherit">Limpar cache e recarregar</button>' +
+            '<pre style="white-space:pre-wrap;word-break:break-word;font-size:13px;color:#cfc8b8;margin:0">' + texto.replace(/</g, '&lt;') + '</pre>';
+          document.body.appendChild(d);
+          document.getElementById('erro-limpar').onclick = function () {
+            var fim = function () { location.reload(); };
+            try {
+              var p = [];
+              if ('serviceWorker' in navigator) p.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }));
+              if (window.caches) p.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }));
+              Promise.all(p).then(fim, fim);
+            } catch (e) { fim(); }
+          };
+        }
+        window.setTimeout(mostrar, 8000);
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BKU_MH6P.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D_-zT5ti.css">
+  <link rel="manifest" href="/manifest.webmanifest"></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
